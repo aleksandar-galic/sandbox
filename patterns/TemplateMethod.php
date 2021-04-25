@@ -6,45 +6,53 @@
 	It's good in situations where you are worried about code duplication.
 	In scenarios where only one or few methods are different from the two classes.
 	So, use an abstract class to extract mutual behavior.
+
+	In this example, all code in both classes is the same,
+	except for one method (addVeggies and addTurkey).
+
+	The solution is to generalize the name of those two methods into one abstract method (addPrimaryToppings).
 */
  
 abstract class Sub {
-
-	public function layBread()
-	{
-		var_dump('laying down the bread');
-
-		return $this;
-	}
-
-	public function addLettuce()
-	{
-		var_dump('add some lettuce');
-
-		return $this;
-	}
-
-	public function addSauces()
-	{
-		var_dump('add oil and vinegar');
-
-		return $this;
-	}
-
-}
-
-class TurkeySub extends Sub {
 
 	public function make()
 	{
 		return $this
 			->layBread()
 			->addLettuce()
-			->addTurkey()
+			->addPrimaryToppings()
 			->addSauces();
 	}
 
-	public function addTurkey()
+	protected function layBread()
+	{
+		var_dump('laying down the bread');
+
+		return $this;
+	}
+
+	protected function addLettuce()
+	{
+		var_dump('add some lettuce');
+
+		return $this;
+	}
+
+	protected function addSauces()
+	{
+		var_dump('add oil and vinegar');
+
+		return $this;
+	}
+
+	// Any subclass is required to have this method.
+	protected abstract function addPrimaryToppings();
+
+}
+
+class TurkeySub extends Sub {
+
+	public function addPrimaryToppings()
 	{
 		var_dump('add some turkey');
 
@@ -54,16 +62,7 @@ class TurkeySub extends Sub {
 
 class VeggieSub extends Sub {
 
-	public function make()
-	{
-		return $this
-			->layBread()
-			->addLettuce()
-			->addVeggies()
-			->addSauces();
-	}
-
-	public function addVeggies()
+	public function addPrimaryToppings()
 	{
 		var_dump('add some veggies');
 
