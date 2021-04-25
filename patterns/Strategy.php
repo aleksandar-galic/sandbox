@@ -7,6 +7,9 @@
 
 	But we want to be able
 	to easily switch the 'Log' classes.
+
+	The solution is to pass the common interface, not specific class.
+	That way you can pick your logger (strategy).
 */
 
 
@@ -43,14 +46,13 @@ interface Logger {
 
 class App {
 
-	public function log($data)
+	public function log($data, Logger $logger)
 	{
-		$logger = new LogToFile();
-
 		$logger->log($data);
 	}
 }
 
 $app = new App();
 
-$app->log('Some information here.');
+$app->log('Some information here.', new LogToDatabase());
+$app->log('Some more information here.', new LogToXWebService());
