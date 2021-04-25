@@ -46,8 +46,10 @@ interface Logger {
 
 class App {
 
-	public function log($data, Logger $logger)
+	public function log($data, Logger $logger = null)
 	{
+		$logger = $logger ?: new LogToFile();
+
 		$logger->log($data);
 	}
 }
@@ -56,3 +58,5 @@ $app = new App();
 
 $app->log('Some information here.', new LogToDatabase());
 $app->log('Some more information here.', new LogToXWebService());
+
+$app->log('Some even more information here.');
